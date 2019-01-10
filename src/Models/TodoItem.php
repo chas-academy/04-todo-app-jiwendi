@@ -16,10 +16,10 @@ class TodoItem extends Model
      {
         try {
                 $query = "UPDATE todos 
-                 SET id = '$todoId',
-                     title = '$title',
-                     completed = '$completed'
-                 ";
+                 SET title = '$title'
+                 WHERE id = '$todoId'";
+                    
+                 
                 self::$db->query($query);
                 $result = self::$db->execute();
     

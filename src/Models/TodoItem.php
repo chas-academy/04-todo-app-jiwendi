@@ -6,14 +6,29 @@ class TodoItem extends Model
 {
     const TABLENAME = 'todos'; // This is used by the abstract model, don't touch
 
-    // public static function createTodo($title)
-    // {
-    //     // TODO: Implement me!
-    //     // Create a new todo
-    // }
+    public static function createTodo($title)
+    {
+        $date = date('Y-m-d H:i:s');
+        $completed = false;
+        try {
+            $query = "INSERT INTO todos (title, created)
+             VALUES('$title','$date')";
+                
+            self::$db->query($query);
+            $result = self::$db->execute();
 
-     public static function updateTodo($todoId, $title, $completed = null)
-     {
+            if (!empty($result)) {
+                    return $result;
+            } else {
+                    throw new \Exception("Error occured when trying to fetch result.");
+            }
+        } catch (PDOException $err) {
+                return $err->getMessage();
+        }
+    }
+
+    public static function updateTodo($todoId, $title, $completed = null)
+    {
         try {
                 $query = "UPDATE todos 
                  SET title = '$title'
@@ -31,7 +46,7 @@ class TodoItem extends Model
         } catch (PDOException $err) {
                 return $err->getMessage();
         }
-     }
+    }
 
         
 
